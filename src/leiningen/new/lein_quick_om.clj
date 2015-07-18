@@ -12,6 +12,7 @@
     (main/info "Generating fresh 'lein new' lein-quick-om project.")
     (->files data
              ["src/{{sanitized}}/core.cljs" (render "core.cljs" data)]
+             ["src/{{sanitized}}/devbar.cljs" (render "devbar.cljs" data)]
              ["project.clj" (render "project.clj" data)]
              ["Dockerfile" (render "Dockerfile" data)]
              ["Makefile" (render "Makefile" data)]

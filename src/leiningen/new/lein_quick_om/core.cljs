@@ -3,15 +3,44 @@
   (:require [om.core :as om]
             [om.dom :as dom]
             [goog.dom :as gdom]
+            [{{name}}.devbar :as db]
             [cljs.core.async :refer [<! >! put! chan]]))
 
 (defonce state (atom {:example-data (vec (range 1 5))}))
 
-(defn button
-  [on-click-fn text]
-  (dom/input #js {:type "button" 
-                  :onClick #(on-click-fn) 
-                  :value text}))
+(declare reset-state cond-render-dev-bar)
+
+(def dev-mode (atom true))
+
+(defn toggle-dev []  
+   (swap! dev-mode not)
+   (cond-render-dev-bar))
+
+(defn cond-render-dev-bar
+  []
+  (if @dev-mode
+    (db/add-dev-bar state
+                    {:buttons [
+                               [reset-state "reset state"]
+                               [toggle-dev "toggle devmode"]]})
+    (db/remove-dev-bar))) 
+(cond-render-dev-bar)
+
+(def init-state 
+  {:example-data (vec (range 1 5))})
+
+
+
+(defn reset-state
+  []
+  (reset! state init-state))
+
+(defn add-inc
+  [coll]
+  (fn [o]
+    (let [last-val(if (empty? o) 0
+                    (last o))]
+      (conj o (inc last-val)))))
 
 (defn child-component
   [data owner]
@@ -19,7 +48,8 @@
     om/IRender
     (render [_]
       (dom/div nil
-               (str "example component " data)))))
+               (dom/span nil (str "example component " data))
+))))
 
 (defn master-component
   [data owner]
