@@ -32,5 +32,5 @@ quick:
 		-v $(M2_DIR):/app/local-m2 \
 		-p $(CONTAINER_PORT):$(HOST_PORT) \
 		$(LATEST_TAG) \
-		lein-figwheel
+		lein figwheel
 
