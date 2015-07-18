@@ -11,4 +11,4 @@
               :sanitized (name-to-path name)}]
     (main/info "Generating fresh 'lein new' lein-quick-om project.")
     (->files data
-             ["src/{{sanitized}}/foo.clj" (render "foo.clj" data)])))
+             ["src/{{sanitized}}/project.clj" (render "project.clj" data)])))
