@@ -11,7 +11,11 @@
               :sanitized (name-to-path name)}]
     (main/info "Generating fresh 'lein new' lein-quick-om project.")
     (->files data
+             ["src/{{sanitized}}/core.cljs" (render "core.cljs" data)]
              ["project.clj" (render "project.clj" data)]
              ["Dockerfile" (render "Dockerfile" data)]
              ["Makefile" (render "Makefile" data)]
-             [".dockerignore" (render ".dockerignore" data)])))
+             [".dockerignore" (render ".dockerignore" data)]
+             ["resources/public/index.html" (render "index.html" data)]
+             ["resources/public/css/style.css" (render "style.css" data)]
+             )))
