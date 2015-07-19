@@ -69,7 +69,6 @@
 
 (defn reset-state
   []
-  (js/alert "okay")
   (reset! state init-state))
 
 (defn add-inc
