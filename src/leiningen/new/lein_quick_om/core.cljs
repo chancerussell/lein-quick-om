@@ -5,9 +5,21 @@
             [goog.dom :as gdom]
             [{{name}}.devbar :as db]
             [{{name}}.state-viewer :as sv]
+            [om-bootstrap.button :as b]
             [cljs.core.async :refer [<! >! put! chan]]))
 
-(defonce state (atom {:example-data (vec (range 1 5))}))
+(defonce app-name "{{name}}")
+(defonce intro-text
+  ["This is an example application using "
+   (dom/a #js {:href "https://github.com/omcljs/om"} "Om")
+   ". You can modify this example by editing "
+   (dom/code nil (str "src/" app-name "/core.cljs"))
+   "."])
+
+(def init-state 
+  {:example-data (mapv (fn [n] {:value n}) (range 1 5))})
+
+(defonce state (atom init-state))
 
 (declare reset-state cond-render-dev-bar cond-render-state-view)
 
@@ -40,13 +52,20 @@
                                [toggle-state-view "toggle state viewer"]]})
     (db/remove-dev-bar))) 
 
+;force conditional code to be called on each reload
+;TODO: replace this with a function that figwheel can call on refresh
 (cond-render-dev-bar)
 (cond-render-state-view)
 
-(def init-state 
-  {:example-data (vec (range 1 5))})
-
-
+(defn small-button
+  [f label]
+  (b/button {:bs-style "primary"
+             :bs-size "xsmall"
+             :onClick f
+             :style #js {:width "15pt" 
+                         :marginRight "5px"
+                         :marginLeft "5px"}}
+            label))
 
 (defn reset-state
   []
@@ -64,17 +83,37 @@
   (reify
     om/IRender
     (render [_]
-      (dom/div nil
-               (dom/span nil (str "example component " data))
-))))
+      (dom/div #js {:className "row"
+                    :style #js {:marginBottom "20pt"}}
+               (dom/div #js {:className "col-xs-4"} 
+                        (dom/b nil (str "example component " (:value data))))
+                        (small-button #(om/transact! data :value dec) "-")  
+                        (small-button #(om/transact! data :value inc) "+")))))
+
+(def jumbotron
+  (dom/div #js {:className "jumbotron"}
+           (dom/div #js {:className "container"}
+                    (dom/h1 nil (str "hello from " app-name))
+                    (dom/p nil intro-text))))
+
+(defn main-component
+  [data owner]
+  (reify
+    om/IRender
+    (render [_]
+    (dom/div #js {:className "container"}
+             (dom/div #js {:className "col-md-3"} nil)
+             (apply dom/div #js {:className "col-md-6"} 
+                    (om/build-all child-component (:example-data data))) 
+             (dom/div #js {:className "col-md-3"} nil)))))
 
 (defn master-component
   [data owner]
   (reify
     om/IRender
     (render [_]
-      (apply dom/div nil 
-             (dom/h1 nil "Hello from {{name}}...")
-             (om/build-all child-component (:example-data data))))))
+      (dom/div nil 
+             jumbotron
+             (om/build main-component data)))))
 
 (om/root master-component state {:target (gdom/getElement "app")})
