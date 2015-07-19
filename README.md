@@ -4,6 +4,14 @@ A quick Leiningen template for simple [Om](https://github.com/omcljs/om)-based a
 
 Alpha-quality, provided with no warranty.
 
+## Getting Started
+
+Clone the repository, and move it into your local Maven repository (usually `~/m2/repository` by default). Then run:
+
+`lein new lein-quick-om APP_NAME`
+
+TODO: Get the template up on Clojars after further testing.
+
 ## Features
 
 ### "devbar"
