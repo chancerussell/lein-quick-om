@@ -6,7 +6,7 @@ Alpha-quality, provided with no warranty.
 
 ## Getting Started
 
-Clone the repository, and move it into your local Maven repository (usually `~/m2/repository` by default). Then run:
+Clone the repository, and move it into your local Maven repository (usually `~/m2/repository/` by default). Then run:
 
 `lein new lein-quick-om APP_NAME`
 
