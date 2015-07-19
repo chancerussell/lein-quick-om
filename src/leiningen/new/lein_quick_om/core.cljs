@@ -96,7 +96,7 @@
 (def jumbotron
   (dom/div #js {:className "jumbotron"}
            (dom/div #js {:className "container"}
-                    (dom/h1 nil (str "hello from " app-name))
+                    (dom/h1 nil (str "welcome to " app-name))
                     (dom/p nil intro-text))))
 
 (defn main-component
