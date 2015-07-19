@@ -24,7 +24,7 @@ labels to automatically generate buttons to use as development shortcuts:
 (PROJ_NAME.devbar/add-dev-bar APP_STATE
   {:buttons [[reset-state "reset state"]
              [shutdown-json-refresh "stop JSON reloading"]
-             [#(reset! background-color "blue") "make background blue]]})
+             [#(reset! background-color "blue") "make background blue"]]})
 ```
 
 ### State viewer
