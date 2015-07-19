@@ -17,19 +17,13 @@
 (defn new-container-el
   "get a new container element"
   []
-  (let [new-el (.createElement js/document "div")]
+  (let [new-el (.createElement js/document "nav")]
     (.setAttribute new-el "id" container-id) 
-    (.setAttribute new-el "class" "container") 
+    (.setAttribute new-el "class" "navbar navbar-default") 
     new-el))
 
 (def bar-attrs
-  {:style {:width "100%"
-           :borderStyle "solid"
-           :borderWidth "1px"
-           :borderTop "none"
-           ;:heig;t "50pt"
-           }
-   :className "row"})
+  {:className "container-fluid"})
 
 (defn get-body-div
   "gets a container div at the top of the body, creating it if necessary."
@@ -43,24 +37,19 @@
 
 (defn dev-button
   [[f label]]
-  (b/button {:bs-style "primary"
-             :bs-size "xsmall"
-             :onClick f} 
-            label)
-  )
+  (dom/li nil 
+          (dom/a #js {:href "#"
+                      :onClick f} 
+                 label)))
 
 (defn button-section
   [button-pairs]
-  (apply b/toolbar nil 
-         (mapv dev-button button-pairs) 
-         ))
+  (apply dom/ul #js {:className "nav navbar-nav navbar-right"}  
+         (mapv dev-button button-pairs))) 
 
-(defn app-title
-  [title]
-  (dom/h3 #js {:style #js {
-                           :marginTop 0
-                           :marginBottom 0}}
-(str "dev: " "“" title "”")))
+(def app-title
+  (dom/h3 #js {:style #js {:className "navbar-brand"}}
+          (str "dev: “{{name}}”")))
 
 
 (defn dev-bar
@@ -70,9 +59,8 @@
       om/IRender
       (render [_]
         (dom/div (clj->js bar-attrs) 
-                 (dom/div #js {:className "col-xs-3"}
-                         (app-title "{{name}}"))
-                 (dom/div #js {:className "col-xs-5"} nil)
+                 (dom/div #js {:className "navbar-header"}
+                          app-title)
                  (button-section button-pairs)
                  )))))
 
