@@ -69,6 +69,7 @@
 
 (defn reset-state
   []
+  (js/alert "okay")
   (reset! state init-state))
 
 (defn add-inc
@@ -84,8 +85,10 @@
     om/IRender
     (render [_]
       (dom/div #js {:className "row"
-                    :style #js {:marginBottom "20pt"}}
-               (dom/div #js {:className "col-xs-4"} 
+                    :style #js {:marginBottom "20pt"
+                                :borderTop "1px solid"
+                                :borderLeft "1px solid"}}
+               (dom/div #js {:className "col-xs-4"}
                         (dom/b nil (str "example component " (:value data))))
                         (small-button #(om/transact! data :value dec) "-")  
                         (small-button #(om/transact! data :value inc) "+")))))
