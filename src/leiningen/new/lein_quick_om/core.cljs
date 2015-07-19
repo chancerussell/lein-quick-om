@@ -4,17 +4,31 @@
             [om.dom :as dom]
             [goog.dom :as gdom]
             [{{name}}.devbar :as db]
+            [{{name}}.state-viewer :as sv]
             [cljs.core.async :refer [<! >! put! chan]]))
 
 (defonce state (atom {:example-data (vec (range 1 5))}))
 
-(declare reset-state cond-render-dev-bar)
+(declare reset-state cond-render-dev-bar cond-render-state-view)
 
-(def dev-mode (atom true))
+(defonce dev-mode (atom true))
+(defonce state-viewer (atom false))
+
+
 
 (defn toggle-dev []  
    (swap! dev-mode not)
    (cond-render-dev-bar))
+
+(defn toggle-state-view []
+  (swap! state-viewer not)
+  (cond-render-state-view))
+
+(defn cond-render-state-view
+  []
+  (if @state-viewer
+    (sv/open-state-viewer state {})
+    (sv/close-state-viewer))) 
 
 (defn cond-render-dev-bar
   []
@@ -22,9 +36,12 @@
     (db/add-dev-bar state
                     {:buttons [
                                [reset-state "reset state"]
-                               [toggle-dev "toggle devmode"]]})
+                               [toggle-dev "toggle devmode"]
+                               [toggle-state-view "toggle state viewer"]]})
     (db/remove-dev-bar))) 
+
 (cond-render-dev-bar)
+(cond-render-state-view)
 
 (def init-state 
   {:example-data (vec (range 1 5))})
