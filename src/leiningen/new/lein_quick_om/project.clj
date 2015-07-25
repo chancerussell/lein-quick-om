@@ -7,6 +7,7 @@
                  [org.omcljs/om "0.9.0"] 
                  [racehub/om-bootstrap "0.5.0"]
                  [cljs-http "0.1.35"]
+                 [sablono "0.3.4"]
                  [ankha "0.1.4"]]
   :local-repo "local-m2"
   :plugins [[lein-cljsbuild "1.0.6"]
