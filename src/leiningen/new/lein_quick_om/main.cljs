@@ -1,4 +1,4 @@
-(ns {{name}}.core
+(ns {{name}}.main
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [om.core :as om]
             [om.dom :as dom]
