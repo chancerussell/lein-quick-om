@@ -4,6 +4,11 @@
             [goog.dom :as gdom]
             [om-bootstrap.button :as b]))
 
+;this isn't a very flexible way of doing things...
+(defonce dev-mode (atom true))
+
+(def devbar-opts (atom {}))
+
 ;generate a (hopefully) unique string for the body div id
 (defonce container-id
   (str "{{name}}-devbar-" (.getTime (js/Date.))))
@@ -79,3 +84,16 @@
   []
   (if-let [el (gdom/getElement container-id)]
     (.remove el)))
+
+(defn cond-render-dev-bar
+  [bool-atom state]
+  (if @bool-atom
+    (add-dev-bar state @devbar-opts)
+    (remove-dev-bar))) 
+
+(defn toggle-dev 
+  "Toggles the \"devmode\" bar by flipping the atom's value and calling the cond-render-dev-bar."
+  [bool-atom state]  
+   (swap! bool-atom not)
+   (cond-render-dev-bar bool-atom state))
+

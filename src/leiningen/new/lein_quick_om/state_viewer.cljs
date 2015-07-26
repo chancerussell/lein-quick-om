@@ -53,3 +53,12 @@
     (.close @popup-window-handle))
   (reset! popup-window-handle nil))
 
+(defn cond-render-state-view
+  [bool-atom state]
+  (if @bool-atom
+    (open-state-viewer state {})
+    (close-state-viewer))) 
+
+(defn toggle-state-view [bool-atom state]
+  (swap! bool-atom not)
+  (cond-render-state-view bool-atom state))
