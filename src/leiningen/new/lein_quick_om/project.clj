@@ -23,7 +23,7 @@
                                    ;:websocket-host "192.168.1.4"
                                    }
                         :compiler {
-                                   :main {{name}}.core
+                                   :main {{name}}.main
                                    :asset-path "js/compiled/out"
                                    :output-to "resources/public/js/compiled/app.js"
                                    :output-dir "resources/public/js/compiled/out"
