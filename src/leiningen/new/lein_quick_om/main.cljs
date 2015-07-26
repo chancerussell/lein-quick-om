@@ -29,11 +29,11 @@
 (def init-state 
   {:example-data (mapv (fn [n] {:value n}) (range 1 5))})
 
-(defonce state (atom (init-state)))
+(defonce state (atom init-state))
 
 
 (def devbar-opts
-  {:buttons [[#(reset! state (init-state)) "reset state"]
+  {:buttons [[#(reset! state init-state) "reset state"]
              [#(db/toggle-dev dev-mode state) "toggle devmode"]
              [#(sv/toggle-state-view state-viewer state) "toggle state viewer"]]}) 
 
