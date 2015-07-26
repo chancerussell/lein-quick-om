@@ -11,7 +11,7 @@
               :sanitized (name-to-path name)}]
     (main/info "Generating fresh 'lein new' lein-quick-om project.")
     (->files data
-             ["src/{{sanitized}}/core.cljs" (render "core.cljs" data)]
+             ["src/{{sanitized}}/main.cljs" (render "main.cljs" data)]
              ["src/{{sanitized}}/devbar.cljs" (render "devbar.cljs" data)]
              ["src/{{sanitized}}/state_viewer.cljs" (render "state_viewer.cljs" data)]
              ["src/{{sanitized}}/ui.cljs" (render "ui.cljs" data)]
